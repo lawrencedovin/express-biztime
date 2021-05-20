@@ -13,13 +13,13 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/:comp_code", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try {
-        const { comp_code } = req.params;
+        const { id } = req.params;
         const results = await db.query(
             `SELECT * FROM invoices
-            WHERE comp_code=$1`,
-            [comp_code]);
+            WHERE id=$1`,
+            [id]);
 
         if (results.rows.length === 0) {
             throw new ExpressError(`Can't find user with id of ${id}`, 404);
