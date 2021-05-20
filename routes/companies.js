@@ -82,9 +82,20 @@ router.patch("/:code", async (req, res, next) => {
 
 // DELETE /companies/[code]
 // Deletes company.
+router.delete("/:code", async(req, res, next) => {
+    try {
+        const { code } = req.params;
+        const results = await db.query(
+            `DELETE FROM companies 
+            WHERE code=$1`, 
+            [code]
+        );
 
-// Should return 404 if company cannot be found.
-
-// Returns {status: "deleted"}
+        return res.json({message: 'Deleted'});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
 
 module.exports = router;
