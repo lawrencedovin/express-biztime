@@ -31,4 +31,20 @@ router.get("/:comp_code", async (req, res, next) => {
     }
 });
 
+router.post("/", async (req, res, next) => {
+    try {
+        const { comp_code, amt, paid, add_date, paid_date } = req.body;
+        const results = await db.query(
+            `INSERT INTO invoices (comp_code, amt, paid, add_date, paid_date)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING comp_code, amt, paid, add_date, paid_date`, 
+            [comp_code, amt, paid, add_date, paid_date]);
+        return res.status(201).json({company: results.rows[0]});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
+
+
 module.exports = router;
