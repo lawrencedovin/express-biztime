@@ -28,7 +28,7 @@ router.get("/:code", async (req, res, next) => {
         if (results.rows.length === 0) {
             throw new ExpressError(`Can't find user with id of ${id}`, 404);
         }
-        return res.json({companies: results.rows[0]});
+        return res.json({company: results.rows[0]});
     }
     catch(e) {
         return next(e);
@@ -41,8 +41,22 @@ router.get("/:code", async (req, res, next) => {
 // Adds a company.
 
 // Needs to be given JSON like: {code, name, description}
-
 // Returns obj of new company: {company: {code, name, description}}
+
+router.post("/", async (req, res, next) => {
+    try {
+        const { code, name, description } = req.body;
+        const results = await db.query(
+            `INSERT INTO companies (code, name, description)
+            VALUES ($1, $2, $3)
+            RETURNING code, name, description`, 
+            [code, name, description]);
+        return res.status(201).json({company: results.rows[0]});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
 
 // PUT /companies/[code]
 // Edit existing company.
