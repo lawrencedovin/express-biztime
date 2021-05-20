@@ -22,7 +22,7 @@ router.get("/:id", async (req, res, next) => {
             [id]);
 
         if (results.rows.length === 0) {
-            throw new ExpressError(`Can't find user with id of ${id}`, 404);
+            throw new ExpressError(`Can't find invoice with id of ${id}`, 404);
         }
         return res.json({invoices: results.rows[0]});
     }
@@ -40,6 +40,26 @@ router.post("/", async (req, res, next) => {
             RETURNING comp_code, amt`, 
             [comp_code, amt]);
         return res.status(201).json({company: results.rows[0]});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
+
+router.patch('/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { amt } = req.body;
+        const results = await db.query(
+            `UPDATE invoices SET amt=$1
+            WHERE id = $2
+            RETURNING id, amt`,
+            [amt, id]
+        );
+        if (results.rows.length === 0) {
+            throw new ExpressError(`Can't update invoice with id of ${id}`, 404);
+        }
+        return res.json({invoice: results.rows[0]});
     }
     catch(e) {
         return next(e);
