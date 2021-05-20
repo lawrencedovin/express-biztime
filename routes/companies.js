@@ -58,14 +58,27 @@ router.post("/", async (req, res, next) => {
     }
 });
 
-// PUT /companies/[code]
+// PATCH /companies/[code]
 // Edit existing company.
-
-// Should return 404 if company cannot be found.
-
-// Needs to be given JSON like: {name, description}
-
-// Returns update company object: {company: {code, name, description}}
+router.patch("/:code", async (req, res, next) => {
+    try {
+        const { code } = req.params;
+        const { name, description } = req.body;
+        const results = await db.query(
+            `UPDATE companies SET name=$1, description=$2
+            WHERE code = $3
+            RETURNING code, name, description`,
+            [name, description, code]
+        );
+        if (results.rows.length === 0) {
+            throw new ExpressError(`Can't find company with id of ${code}`, 404);
+        }
+        return res.json({company: results.rows[0]});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
 
 // DELETE /companies/[code]
 // Deletes company.
