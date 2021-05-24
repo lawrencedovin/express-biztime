@@ -39,7 +39,6 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:code", async (req, res, next) => {
     try {
-
         const result = await db.query(
             `SELECT i.code, i.industry, c.name
             FROM industries AS i

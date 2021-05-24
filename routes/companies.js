@@ -20,12 +20,17 @@ router.get("/", async (req, res, next) => {
 // Return obj of company: {company: {code, name, description}}
 router.get("/:code", async (req, res, next) => {
     try {
+
         const { code } = req.params;
 
         const compResult = await db.query(
-            `SELECT code, name, description
-             FROM companies
-             WHERE code = $1`,
+            `SELECT c.name, c.description, i.industry
+            FROM companies AS c
+                LEFT JOIN companies_industries AS ci
+                    ON c.code = ci.comp_code
+                LEFT JOIN industries as i
+                    ON ci.industry_code = i.code
+             WHERE c.code = $1`,
           [code]
       );
   
@@ -41,9 +46,8 @@ router.get("/:code", async (req, res, next) => {
       }
   
       const company = compResult.rows[0];
-      const invoices = invResult.rows;
-  
-      company.invoices = invoices.map(inv => inv.id);
+      company.industries = compResult.rows.map(i => i.industry);
+      company.invoices = invResult.rows.map(inv => inv.id);
   
       return res.json({"company": company});
     }
