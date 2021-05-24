@@ -37,4 +37,20 @@ router.get("/:code", async (req, res, next) => {
     }
 });
 
+router.post("/", async (req, res, next) => {
+    try {
+        const { code, industry } = req.body;
+
+        const results = await db.query(
+            `INSERT INTO industries (code, industry)
+            VALUES ($1, $2)
+            RETURNING code, industry`, 
+            [code, industry]);
+        return res.status(201).json({company: results.rows[0]});
+    }
+    catch(e) {
+        return next(e);
+    }
+});
+
 module.exports = router;
