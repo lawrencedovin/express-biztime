@@ -7,11 +7,13 @@ const ExpressError = require("./expressError");
 // Parse request bodies for JSON
 app.use(express.json());
 
-const cRoutes = require("./routes/companies")
-const iRoutes = require("./routes/invoices");
+const companiesRoutes = require("./routes/companies")
+const invoicesRoutes = require("./routes/invoices");
+const industryRoutes = require("./routes/industry");
 
-app.use("/companies", cRoutes);
-app.use("/invoices", iRoutes);
+app.use("/companies", companiesRoutes);
+app.use("/invoices", invoicesRoutes);
+app.use("/industry", industryRoutes);
 
 /** 404 handler */
 
