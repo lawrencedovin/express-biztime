@@ -14,4 +14,27 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+router.get("/:code", async (req, res, next) => {
+    try {
+        const { code } = req.params;
+
+        const result = await db.query(
+            `SELECT code, industry
+             FROM industries
+             WHERE code = $1`,
+          [code]
+      );
+
+      if (result.rows.length === 0) {
+        throw new ExpressError(`No such industry: ${code}`, 404)
+      }
+  
+      return res.json({"industry": result.rows[0]});
+    }
+
+    catch(e) {
+        return next(e);
+    }
+});
+
 module.exports = router;
