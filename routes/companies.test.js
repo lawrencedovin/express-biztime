@@ -28,27 +28,27 @@ describe("GET /", function () {
 });
 
 
-describe("GET /apple", function () {
+// describe("GET /apple", function () {
 
-  test("It return company info", async function () {
-    const response = await request(app).get("/companies/apple");
-    expect(response.body).toEqual(
-        {
-          "company": {
-            code: "apple",
-            name: "Apple",
-            description: "Maker of OSX.",
-            invoices: [1, 2],
-          }
-        }
-    );
-  });
+//   test("It return company info", async function () {
+//     const response = await request(app).get("/companies/apple");
+//     expect(response.body).toEqual(
+//         {
+//           "company": {
+//             code: "apple",
+//             name: "Apple",
+//             description: "Maker of OSX.",
+//             invoices: [1, 2],
+//           }
+//         }
+//     );
+//   });
 
-  test("It should return 404 for no-such-company", async function () {
-    const response = await request(app).get("/companies/blargh");
-    expect(response.status).toEqual(404);
-  })
-});
+//   test("It should return 404 for no-such-company", async function () {
+//     const response = await request(app).get("/companies/blargh");
+//     expect(response.status).toEqual(404);
+//   })
+// });
 
 
 describe("POST /", function () {

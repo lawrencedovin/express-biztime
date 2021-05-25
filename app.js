@@ -15,9 +15,10 @@ app.use("/companies", companiesRoutes);
 app.use("/invoices", invoicesRoutes);
 app.use("/industry", industryRoutes);
 
+
 /** 404 handler */
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   const err = new ExpressError("Not Found", 404);
   return next(err);
 });
