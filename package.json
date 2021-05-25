@@ -1,0 +1,27 @@
+{
+  "name": "express-biztime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "_test-common.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.6.0",
+    "slugify": "^1.5.3",
+    "supertest": "^6.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lawrencedovin/express-biztime.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lawrencedovin/express-biztime/issues"
+  },
+  "homepage": "https://github.com/lawrencedovin/express-biztime#readme"
+}
